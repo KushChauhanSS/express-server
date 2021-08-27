@@ -12,4 +12,6 @@ const equilateral = (row)=>{
     }
 }
 
-equilateral(5);
+const process = require('process');
+var rows = process.argv[2]
+equilateral(rows)

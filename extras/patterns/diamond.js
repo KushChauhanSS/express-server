@@ -14,7 +14,7 @@ const diamond = (row)=>{
         console.log(s);
     }
 
-    for (i = row; i >= 0; i--) {
+    for (i = row-1; i >= 0; i--) {
         var s = "";
         for(j = row; j > i; j--){
            s += " "; 
@@ -30,4 +30,6 @@ const diamond = (row)=>{
     
 }
 
-diamond(5);
+const process = require('process');
+var rows = process.argv[2] // this will give the 2nd index vale from the array returend by 
+diamond(rows)   
