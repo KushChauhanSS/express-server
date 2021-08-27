@@ -31,5 +31,5 @@ const diamond = (row)=>{
 }
 
 const process = require('process');
-var rows = process.argv[2] // this will give the 2nd index vale from the array returend by 
+var rows = process.argv[2] // this will give the 2nd index value from the array returned 
 diamond(rows)   
