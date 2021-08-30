@@ -1,15 +1,21 @@
-const equilateral = (row)=>{
-    var i,j,k;
-    for(i = 1; i<=row; i++){
-        var s = "";
-        for(j=1; j <= row - i; j++){
+const equilateral = (row) => {
+    console.log("Print a triangle with rows", row);
+
+    let s = "";
+    
+    for(let i = 1; i<=row; i++){
+        
+        for(let j=1; j <= row - i; j++){
             s+=" ";
         }
-        for(k=1; k <= i; k++){
+        
+        for(let k=1; k <= i; k++){
             s+="* ";
         }
-        console.log(s)
+        s+="\n";
     }
+
+    console.log(s);
 }
 
 const process = require('process');
