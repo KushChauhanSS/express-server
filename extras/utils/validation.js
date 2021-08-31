@@ -1,66 +1,45 @@
-users = [
-    {
-    traineeEmail: 'trainee1@successive.tech',
-    reviewerEmail: 'reviewer1@successive.tech',
-    },
-    {
-    traineeEmail: 'trainee2@gmail.com',
-    reviewerEmail: 'reviewer2@successive.tech',
-    },
-]
-
-const validateEmail =( email) => {
-
-    const pattern = /^[(a-z|A-Z)0-9.!#$%&'*+/?^_`~-]+@successive.tech$/;
-    const result = pattern.test(email);
-    // console.log(result);
-    return result;  
-
-}
-
-const validateUsers = (users) => {
-    
-    users.forEach(element => {
-        
-        const {traineeEmail} = element;
-        const {reviewerEmail} = element;
-
-        if(validateEmail(traineeEmail)){
-            validUsers.push(traineeEmail);
-        }
-        else{
-            invalidUsers.push(traineeEmail);
-        }
-
-        if(validateEmail(reviewerEmail)){
-            validUsers.push(reviewerEmail);
-        }
-        else{
-            invalidUsers.push(reviewerEmail);
-        }
-    });
-
-}
-
+import { validateEmail } from "./helpers"
 
 const validUsers = [];
 const invalidUsers = [];
 
-validateUsers(users);
+export const validateUsers = (users) => {
+    console.log("----validateUsers----");
 
-console.log("Valid Users :")
-validUsers.forEach(element => {
-    console.log(element);
-});
+    users.forEach(element => {
 
-console.log("No. of valid users: ", validUsers.length);
+        const { traineeEmail } = element;
+        const { reviewerEmail } = element;
 
-console.log();
-console.log("-----------------------------\n");
+        if (validateEmail(traineeEmail)) {
+            validUsers.push(traineeEmail);
+        }
+        else {
+            invalidUsers.push(traineeEmail);
+        }
 
-console.log("Invalid Users :")
-invalidUsers.forEach(element => {
-    console.log(element);
-});
+        if (validateEmail(reviewerEmail)) {
+            validUsers.push(reviewerEmail);
+        }
+        else {
+            invalidUsers.push(reviewerEmail);
+        }
+    });
 
-console.log("No. of invalid users:", invalidUsers.length);
+    console.log("Valid Users :");
+    validUsers.forEach(element => {
+        console.log(element);
+    });
+    console.log("No. of valid users: ", validUsers.length);
+
+    console.log();
+    console.log("-----------------------------\n");
+
+    console.log("Invalid Users :");
+    invalidUsers.forEach(element => {
+        console.log(element);
+    });
+    console.log("No. of invalid users:", invalidUsers.length);
+
+}
+

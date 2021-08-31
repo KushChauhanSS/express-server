@@ -18,6 +18,8 @@ const equilateral = (row) => {
     console.log(s);
 }
 
-const process = require('process');
-var rows = process.argv[2] // this will give the 2nd index value from the array returned from command line arguments
-equilateral(rows)
+// const process = require('process');
+// var rows = process.argv[2] // this will give the 2nd index value from the array returned from command line arguments
+// equilateral(rows);
+
+export default equilateral; // exporting equilateral function

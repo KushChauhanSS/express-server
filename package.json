@@ -1,0 +1,25 @@
+{
+  "name": "express-server",
+  "version": "1.0.0",
+  "description": "An express application",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node extras/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://KushChauhanSS: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@github.com/KushChauhanSS/express-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KushChauhanSS/express-server/issues"
+  },
+  "homepage": "https://github.com/KushChauhanSS/express-server#readme",
+  "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/node": "^7.14.9",
+    "@babel/preset-env": "^7.15.0"
+  }
+}
