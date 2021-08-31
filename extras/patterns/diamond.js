@@ -31,6 +31,8 @@ const diamond = (row) => {
     console.log(s);
 }
 
-const process = require('process');
-var rows = process.argv[2] // this will give the 2nd index value from the array returned from command line arguments
-diamond(rows)
+// const process = require('process');
+// var rows = process.argv[2] // this will give the 2nd index value from the array returned from command line arguments
+// diamond(rows);
+
+export default diamond; // exporting diamond function
