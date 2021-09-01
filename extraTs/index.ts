@@ -23,6 +23,6 @@ console.log('2- Trainer has write permission:', hasPermission('getUsers', 'train
 console.log('3- Trainee has delete permission:', hasPermission('getUsers', 'trainee', 'delete')); // false
 console.log('4- Head-Trainer has all permission:', hasPermission('getUsers', 'head-trainer', 'all')); // true
 
-console.log('\n')
 console.log('\n');
+console.log('\n')
 validateUsers(users);
