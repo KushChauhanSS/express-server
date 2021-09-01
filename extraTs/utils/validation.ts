@@ -3,7 +3,7 @@ import { validateEmail } from './helpers';
 const validUsers: string[] = [];
 const invalidUsers: string[] = [];
 
-export const validateUsers = (users: UserType[]): void => {
+export const validateUsers = (users: IUser[]): void => {
     console.log('----validateUsers----');
 
     users.forEach(element => {

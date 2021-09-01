@@ -1,4 +1,4 @@
-interface Permission {
+interface IPermission {
     [key: string]: {
         all: string[];
         read: string[];
@@ -7,7 +7,7 @@ interface Permission {
     };
 }
 
-interface UserType {
+interface IUser {
     traineeEmail: string;
     reviewerEmail: string;
 }

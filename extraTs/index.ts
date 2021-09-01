@@ -2,7 +2,7 @@ import { diamond, equilateral } from './patterns';
 import { hasPermission } from './utils';
 import { validateUsers } from './utils/validation';
 
-export const users: UserType[] = [
+export const users: IUser[] = [
     {
         traineeEmail: 'trainee1@successive.tech',
         reviewerEmail: 'reviewer1@successive.tech',
