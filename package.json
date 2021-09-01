@@ -10,7 +10,7 @@
     "nodemon": "nodemon ./dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**/*.{j,t}s'",
-    "lint:fix": "npm run lint --fix",
+    "lint:fix": "./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**/*.{j,t}s' --fix",
     "commit": "git-cz"
   },
   "repository": {
