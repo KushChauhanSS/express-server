@@ -2,7 +2,7 @@ import * as express from 'express';
 
 export default class Server {
 
-    app: express.Express;
+    private app: express.Express;
 
     /**
      * This is constructor
