@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import notFoundRoute from './libs/routes/notFoundRoute';
 import errorHandler from './libs/routes/errorHandler';
+import router from './router';
 export default class Server {
 
     private app: express.Express;
@@ -26,8 +27,6 @@ export default class Server {
                 status: 200,
                 message: 'I am OK'
             });
-
-
         });
         this.app.post('/data', (req, res) => {
             console.log('/data api called');
@@ -37,6 +36,7 @@ export default class Server {
                 message: 'I am OK'
             });
         });
+        this.app.use('/api', router);
         this.app.use(notFoundRoute);
         this.app.use(errorHandler);
         return this;

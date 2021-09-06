@@ -1,0 +1,1 @@
+export { default as myRouter } from './routes';
