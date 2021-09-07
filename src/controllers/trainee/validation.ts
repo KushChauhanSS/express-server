@@ -1,5 +1,5 @@
 export default Object.freeze({
-    // GET Request Schema 
+    // GET Request Schema
     get: {
 
     },

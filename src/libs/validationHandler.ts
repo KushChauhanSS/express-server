@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { checkSchema, validationResult } from 'express-validator/check'
+import { checkSchema, validationResult } from 'express-validator/check';
 
 const validationHandler = (validationSchema) => {
     console.log(validationSchema);
@@ -12,7 +12,7 @@ const validationHandler = (validationSchema) => {
             }
             next();
         }
-    ]
-}
+    ];
+};
 
 export default validationHandler;
