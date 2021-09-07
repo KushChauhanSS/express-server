@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { checkSchema, validationResult } from 'express-validator/check';
+const { checkSchema, validationResult } = require('express-validator/check');
 
 const validationHandler = (validationSchema) => {
-    console.log(validationSchema);
-
+    // console.log(validationSchema);
     return [
         checkSchema(validationSchema), (req: Request, res: Response, next: NextFunction) => {
             const errors = validationResult(req);

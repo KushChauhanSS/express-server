@@ -30,8 +30,8 @@ class Trainee {
   put = (req: Request, res: Response, next: NextFunction) => {
     console.log('Put request...!');
     console.log(req.body);
-    console.log((req.params.id));
-    const trainee = trainees.find(e => e.id === parseInt(req.params.id, 10));
+    console.log((req.body.id));
+    const trainee = trainees.find(e => e.id === parseInt(req.body.id, 10));
     if (!trainee) {
       res.status(404).send('Not Found! Can not update your request!');
     }

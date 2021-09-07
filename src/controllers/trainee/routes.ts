@@ -7,7 +7,7 @@ const router: Router = Router();
 
 router.get('/', validationHandler(validation.get), trainee.get);
 router.post('/', validationHandler(validation.create), trainee.post);
-router.put('/:id', validationHandler(validation.update), trainee.put);
+router.put('/', validationHandler(validation.update), trainee.put);
 router.delete('/:id', validationHandler(validation.delete), trainee.delete);
 
 export default router;
