@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import Trainee from './Controller';
+import trainee from './Controller';
 
-const router = Router();
+const router: Router = Router();
 
-router.get('/', Trainee.get);
-router.post('/', Trainee.post);
-router.put('/:id', Trainee.put);
-router.delete('/:id', Trainee.delete);
+router.get('/', trainee.get);
+router.post('/', trainee.post);
+router.put('/:id', trainee.put);
+router.delete('/:id', trainee.delete);
 
 export default router;
