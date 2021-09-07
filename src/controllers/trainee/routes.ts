@@ -1,11 +1,13 @@
 import { Router } from 'express';
 import trainee from './Controller';
+import validation from './validation';
+import validationHandler from '../../libs/validationHandler';
 
 const router: Router = Router();
 
-router.get('/', trainee.get);
-router.post('/', trainee.post);
-router.put('/:id', trainee.put);
-router.delete('/:id', trainee.delete);
+router.get('/', validationHandler(validation.get), trainee.get);
+router.post('/', validationHandler(validation.create), trainee.post);
+router.put('/:id', validationHandler(validation.update), trainee.put);
+router.delete('/:id', validationHandler(validation.delete), trainee.delete);
 
 export default router;
