@@ -19,8 +19,9 @@ class Trainee {
   post = (req: Request, res: Response, next: NextFunction) => {
     console.log('Post request...!');
     console.log(req.body);
+    const { name } = req.body;
     const trainee = {
-      traineeName: req.body.name,
+      traineeName: name,
       id: trainees.length + 1
     };
     trainees.push(trainee);
@@ -30,18 +31,19 @@ class Trainee {
   put = (req: Request, res: Response, next: NextFunction) => {
     console.log('Put request...!');
     console.log(req.body);
-    console.log((req.body.id));
-    const trainee = trainees.find(e => e.id === parseInt(req.body.id, 10));
+    const { name, id } = req.body;
+    const trainee = trainees.find(e => e.id === parseInt(id, 10));
     if (!trainee) {
       res.status(404).send('Not Found! Can not update your request!');
     }
-    trainee.traineeName = req.body.name;
+    trainee.traineeName = name;
     res.status(200).send(trainee);
   }
 
   delete = (req: Request, res: Response, next: NextFunction) => {
     console.log('Delete request...!');
-    const trainee = trainees.find(e => e.id === parseInt(req.params.id, 10));
+    const { id } = req.params;
+    const trainee = trainees.find(e => e.id === parseInt(id, 10));
     if (!trainee) {
       res.status(404).send('Not Found! Can not make changes requested!');
     }
