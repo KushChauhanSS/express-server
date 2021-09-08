@@ -19,8 +19,9 @@ class User {
     post = (req: Request, res: Response, next: NextFunction) => {
         console.log('Post request...!');
         console.log(req.body);
+        const { name } = req.body;
         const user = {
-            userName: req.body.name,
+            userName: name,
             id: users.length + 1
         };
         users.push(user);
@@ -30,18 +31,19 @@ class User {
     put = (req: Request, res: Response, next: NextFunction) => {
         console.log('Put request...!');
         console.log(req.body);
-        console.log((req.params.id));
-        const user = users.find(e => e.id === parseInt(req.params.id, 10));
+        const { name, id } = req.body;
+        const user = users.find(e => e.id === parseInt(id, 10));
         if (!user) {
             res.status(404).send('Not Found! Can not update your request!');
         }
-        user.userName = req.body.name;
+        user.userName = name;
         res.status(200).send(user);
     }
 
     delete = (req: Request, res: Response, next: NextFunction) => {
         console.log('Delete request...!');
-        const user = users.find(e => e.id === parseInt(req.params.id, 10));
+        const { id } = req.params;
+        const user = users.find(e => e.id === parseInt(id, 10));
         if (!user) {
             res.status(404).send('Not Found! Can not make changes requested!');
         }
