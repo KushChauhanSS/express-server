@@ -35,6 +35,6 @@ const authMiddleWare = (module, permissionType) => (req, res, next) => {
     req.user = user;
     next();
 
-}
+};
 
 export default authMiddleWare;

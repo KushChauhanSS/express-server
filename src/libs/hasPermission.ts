@@ -1,4 +1,4 @@
-import { permissions } from "./constants";
+import { permissions } from './constants';
 
 const hasPermission = (moduleName: string, role: string, permissionType: string): boolean => {
 
