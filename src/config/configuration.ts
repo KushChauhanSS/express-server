@@ -1,7 +1,6 @@
 import { config } from 'dotenv';
 config();
 import * as joi from 'joi';
-import { string } from 'joi';
 
 const envVarsSchema = joi.object({
     NODE_ENV: joi.string().default('dev'),
