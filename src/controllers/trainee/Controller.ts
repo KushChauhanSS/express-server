@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
+import * as jwt from 'jsonwebtoken';
+import configuration from '../../config/configuration';
 
 // temporary data
 const trainees = [
@@ -51,6 +53,12 @@ class Trainee {
     trainees.splice(index, 1);
     res.status(200).send(trainee);
   }
+
+  createToken = (req: Request, res: Response, next: NextFunction) => {
+    const token = jwt.sign(req.body, configuration.secret, { expiresIn: '10h' });
+    res.status(200).send({ message: 'Token created successfully!', data: { token }, status: 'success' });
+  }
+
 }
 
 export default new Trainee();
