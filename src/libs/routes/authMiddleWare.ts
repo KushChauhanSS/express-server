@@ -25,9 +25,6 @@ const authMiddleWare = (module, permissionType) => (req, res, next) => {
         next({ error: 'Unauthorized Access', message: 'User not Authorized!', status: 403 });
     }
 
-    // const permissionStatus = hasPermission(module, user.role, permissionType);
-    // console.log(hasPermission(module, user.role, permissionType));
-
     if (!hasPermission(module, user.role, permissionType)) {
         next({ error: 'Unauthorized Access', message: 'Permission Denied!', status: 403 });
     }
