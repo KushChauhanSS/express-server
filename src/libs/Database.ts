@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import seedData from './seedData';
 
 export default class Database {
     /**
@@ -14,6 +15,7 @@ export default class Database {
                     return reject(error);
                 }
                 console.log('Connected to MongoDB successfully!');
+                seedData();
                 return resolve('Connected Successfuly!');
             });
         });
