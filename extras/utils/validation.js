@@ -42,4 +42,3 @@ export const validateUsers = (users) => {
     console.log("No. of invalid users:", invalidUsers.length);
 
 }
-

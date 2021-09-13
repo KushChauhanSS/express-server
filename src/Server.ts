@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser';
 import notFoundRoute from './libs/routes/notFoundRoute';
 import errorHandler from './libs/routes/errorHandler';
 import router from './router';
+import Database from './libs/Database';
 export default class Server {
 
     private app: express.Express;
@@ -42,6 +43,9 @@ export default class Server {
         return this;
     }
 
+    /**
+     * Method to initialize bodyparser
+     */
     initBodyParser = () => {
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(bodyParser.json());
@@ -57,11 +61,21 @@ export default class Server {
         return this;
     }
 
-    run = () => {
-        const { port, env } = this.config;
-        this.app.listen(port, () => {
-            console.log(`App started successfuly on port ${port} in ${env} environment.`);
-        });
+    /**
+     * This will run the server at specified port after connecting wiht database.
+     * @returns - Instance of current object
+     */
+    run = async () => {
+        const { port, env, mongoURL } = this.config;
+        try {
+            await Database.open(mongoURL);
+            this.app.listen(port, () => {
+                console.log(`App started successfuly on port ${port} in ${env} environment.`);
+            });
+        }
+        catch (error) {
+            console.log('Error: ', error);
+        }
         return this;
     }
 }

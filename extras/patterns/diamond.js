@@ -1,33 +1,33 @@
 const diamond = (row) => {
     console.log("Print a diamond with rows", row);
-    
+
     let s = "";
-    
-    for(let i = 1; i<=row; i++){
-    
-        for(let j=1; j <= row - i; j++){
-            s+=" ";
+
+    for (let i = 1; i <= row; i++) {
+
+        for (let j = 1; j <= row - i; j++) {
+            s += " ";
         }
-    
-        for(let k=1; k <= i; k++){
-            s+="* ";
+
+        for (let k = 1; k <= i; k++) {
+            s += "* ";
         }
-    
-        s+="\n";
+
+        s += "\n";
     }
 
-    for(let i = row; i>=0; i--){
-    
-        for(let j=1; j <= row - i; j++){
-            s+=" ";
+    for (let i = row; i >= 0; i--) {
+
+        for (let j = 1; j <= row - i; j++) {
+            s += " ";
         }
-    
-        for(let k=1; k <= i; k++){
-            s+="* ";
+
+        for (let k = 1; k <= i; k++) {
+            s += "* ";
         }
-        s+="\n";
+        s += "\n";
     }
-    
+
     console.log(s);
 }
 

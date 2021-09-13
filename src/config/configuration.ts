@@ -14,7 +14,8 @@ const { value: envVars } = envVarsSchema.validate(process.env);
 const configuration: IConfig = Object.freeze({
     env: envVars.NODE_ENV,
     port: envVars.PORT,
-    secret: envVars.TOKEN_SECRET
+    secret: envVars.TOKEN_SECRET,
+    mongoURL: envVars.MONGO_URL
 });
 
 export default configuration;
