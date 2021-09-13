@@ -4,12 +4,12 @@ import { validateUsers } from "./utils/validation";
 
 export const users = [
     {
-    traineeEmail: 'trainee1@successive.tech',
-    reviewerEmail: 'reviewer1@successive.tech',
+        traineeEmail: 'trainee1@successive.tech',
+        reviewerEmail: 'reviewer1@successive.tech',
     },
     {
-    traineeEmail: 'trainee2@gmail.com',
-    reviewerEmail: 'reviewer2@successive.tech',
+        traineeEmail: 'trainee2@gmail.com',
+        reviewerEmail: 'reviewer2@successive.tech',
     },
 ]
 
