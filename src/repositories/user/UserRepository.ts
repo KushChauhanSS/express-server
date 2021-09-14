@@ -9,7 +9,6 @@ export default class UserRepository {
     }
 
     public count = (): mongoose.Query<number, IUserModel> => {
-        // return userModel.countDocuments();
         return userModel.count();
     }
 
@@ -28,7 +27,7 @@ export default class UserRepository {
         return userModel.updateOne(data);
     }
 
-    public delete = (data: any): mongoose.UpdateQuery<IUserModel> => {
+    public delete = (data: any): mongoose.Query<object, IUserModel> => {
         console.log('UserRepository:: delete', data);
         return userModel.deleteOne(data);
     }
