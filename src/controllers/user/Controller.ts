@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 import configuration from '../../config/configuration';
+import UserRepository from '../../repositories/user/UserRepository';
 
 // temporary data
 const users = [
@@ -11,11 +12,14 @@ const users = [
     { userName: 'Vinay', id: 5 }
 ];
 
+const userRepository: UserRepository = new UserRepository();
 class User {
 
-    get = (req: Request, res: Response, next: NextFunction) => {
+    get = async (req: Request, res: Response, next: NextFunction) => {
         console.log('Get request...!');
-        res.status(200).send(users);
+        const { id } = req.query;
+        const userData = await userRepository.findUser({ _id: id });
+        res.status(200).send(userData);
     }
 
     post = (req: Request, res: Response, next: NextFunction) => {

@@ -1,7 +1,18 @@
 export default Object.freeze({
     // GET Request Schema
     get: {
-
+        id: {
+            string: true,
+            exists: true,
+            errorMessage: 'ID is required!',
+            in: ['query']
+        },
+        role: {
+            string: true,
+            exists: true,
+            errorMessage: 'Role is required!',
+            in: ['query']
+        }
     },
     // POST Request Schema
     create: {
