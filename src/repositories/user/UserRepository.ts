@@ -12,6 +12,10 @@ export default class UserRepository {
         return userModel.count();
     }
 
+    public findUser = (query): mongoose.Query<IUserModel, IUserModel> => {
+        return userModel.findOne(query).lean();
+    }
+
     public create = (data: any): Promise<IUserModel> => {
         console.log('UserRepository:: create', data);
         const id = UserRepository.generateObjectId();

@@ -1,8 +1,11 @@
 import * as jwt from 'jsonwebtoken';
 import configuration from '../../config/configuration';
 import hasPermission from '../hasPermission';
+import UserRepository from '../../repositories/user/UserRepository';
 
-const authMiddleWare = (module, permissionType) => (req, res, next) => {
+const userRepository: UserRepository = new UserRepository();
+
+const authMiddleWare = (module, permissionType) => async (req, res, next) => {
     const token = req.header('Authorization');
     console.log('Token:', token);
 
@@ -23,6 +26,12 @@ const authMiddleWare = (module, permissionType) => (req, res, next) => {
 
     if (!user) {
         next({ error: 'Unauthorized Access', message: 'User not Authorized!', status: 403 });
+    }
+
+    const userData = await userRepository.findUser({ _id: user.id });
+
+    if (!userData) {
+        next({ error: 'Unauthorized Access', message: 'User does not exists!', status: 403 });
     }
 
     if (!hasPermission(module, user.role, permissionType)) {
