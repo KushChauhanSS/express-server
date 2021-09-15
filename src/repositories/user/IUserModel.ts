@@ -1,4 +1,3 @@
-import * as mogoose from 'mongoose';
 import IVersionableDocument from '../versionable/IVersionableDocument';
 export default interface IUserModel extends IVersionableDocument {
     id: string;

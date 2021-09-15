@@ -8,27 +8,27 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
         super(userModel);
     }
 
-    public countDoc = (): mongoose.Query<number, IUserModel> => {
+    public countDoc(): mongoose.Query<number, IUserModel> {
         return super.count();
     }
 
-    public findUser = (query): mongoose.Query<IUserModel, IUserModel> => {
-        return super.findOne(query).lean();
+    public findUser(query): mongoose.Query<IUserModel, IUserModel> {
+        return super.findOne(query);
     }
 
-    public findDoc = (query, projection?: any, options?: any): mongoose.Query<IUserModel[], IUserModel> => {
+    public findDoc(query, projection?: any, options?: any): mongoose.Query<IUserModel[], IUserModel> {
         return super.find(query, projection, options);
     }
 
-    public create = (data: any): Promise<IUserModel> => {
+    public createDoc(data: any): Promise<IUserModel> {
         return super.create(data);
     }
 
-    public update = (data: any): Promise<IUserModel> => {
+    public updateDoc(data: any): Promise<IUserModel> {
         return super.update(data);
     }
 
-    public delete = (id: string): mongoose.Query<object, IUserModel> => {
+    public delete(id: string): mongoose.Query<object, IUserModel> {
         console.log('UserRepository:: delete', id);
         return super.invalidate(id);
     }

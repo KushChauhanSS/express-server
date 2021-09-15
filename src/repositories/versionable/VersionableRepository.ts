@@ -7,26 +7,26 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
         this.model = model;
     }
 
-    protected static generateObjectId() {
+    public static generateObjectId() {
         return String(new mongoose.Types.ObjectId());
     }
 
-    protected count = (): mongoose.Query<number, mongoose.EnforceDocument<D, {}>> => {
-        const finalQuery = { deletedAt: null };
+    public count(): mongoose.Query<number, mongoose.EnforceDocument<D, {}>> {
+        const finalQuery = { deletedAt: undefined };
         return this.model.count(finalQuery);
     }
 
-    protected findOne = (query): mongoose.Query<mongoose.EnforceDocument<D, {}>, mongoose.EnforceDocument<D, {}>> => {
-        const finalQuery = { deletedAt: null, ...query };
-        return this.model.findOne(finalQuery).lean();
+    public findOne(query): mongoose.Query<mongoose.EnforceDocument<D, {}>, mongoose.EnforceDocument<D, {}>> {
+        const finalQuery = { deletedAt: undefined, ...query };
+        return this.model.findOne(finalQuery);
     }
 
-    public find = (query, projection?: any, options?: any): mongoose.Query<mongoose.EnforceDocument<D, {}>[], mongoose.EnforceDocument<D, {}>> => {
-        const finalQuery = { deletedAt: null, ...query };
-        return this.model.find(finalQuery, projection, options);
+    public find(query, projection?: any, options?: any): mongoose.Query<mongoose.EnforceDocument<D, {}>[], mongoose.EnforceDocument<D, {}>> {
+        const finalQuery = { deletedAt: undefined, ...query };
+        return this.model.find(finalQuery);
     }
 
-    protected create = (data: any): Promise<D> => {
+    public create(data: any): Promise<D> {
         console.log('UserRepository:: create', data);
         const id = VersionableRepository.generateObjectId();
         console.log(id);
@@ -39,29 +39,33 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     }
 
     // function to soft delete the record.
-    // mongoose.Query < D, mongoose.EnforceDocument < D, {} >>
-    protected invalidate = (id: string) => {
-        return this.model.updateOne({ originalId: id, deletedAt: undefined }, { deletedAt: Date.now() });
+    public invalidate(id: string): mongoose.Query<mongoose.UpdateWriteOpResult, mongoose.EnforceDocument<D, {}>, {}, D> {
+        console.log('in invalidate...');
+        const oldData: object = { originalId: id, deletedAt: undefined };
+        const newData: object = { deletedAt: Date.now() };
+        return this.model.updateOne(oldData, newData);
     }
 
-
-    protected update = async (data: any): Promise<D> => {
+    public async update(data: any): Promise<D> {
         console.log('UserRepository:: update', data);
         const previousRecord = await this.find({ originalId: data.originalId });
+        console.log(previousRecord);
         if (previousRecord) {
+            console.log('in update...');
             await this.invalidate(data.originalId);
         }
         else {
-            return null;
+            return undefined;
         }
-        const newData = { ...previousRecord, ...data };
-        newData._id = VersionableRepository.generateObjectId();
-        delete newData.deletedAt;
-        const model = new this.model(newData);
+        const newDoc = { ...previousRecord, ...data };
+
+        newDoc._id = VersionableRepository.generateObjectId();
+        delete newDoc.deletedAt;
+        const model = new this.model(newDoc);
         return model.save();
     }
 
-    // protected delete = (data: any): mongoose.Query<object, D> => {
+    // public delete = (data: any): mongoose.Query<object, D> => {
     //     console.log('UserRepository:: delete', data);
     //     return this.model.deleteOne(data);
     // }

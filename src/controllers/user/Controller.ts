@@ -17,33 +17,21 @@ class User {
 
     get = async (req: Request, res: Response, next: NextFunction) => {
         console.log('Get request...!');
-        const { id } = req.query;
-        const userData = await userRepository.findUser({ _id: id });
+        const userData = await userRepository.findUser(req.query);
         res.status(200).send(userData);
     }
 
-    post = (req: Request, res: Response, next: NextFunction) => {
+    post = async (req: Request, res: Response, next: NextFunction) => {
         console.log('Post request...!');
-        console.log(req.body);
-        const { name } = req.body;
-        const user = {
-            userName: name,
-            id: users.length + 1
-        };
-        users.push(user);
-        res.status(200).send(user);
+        const userData = await userRepository.createDoc(req.body);
+        res.status(200).send(userData);
     }
 
-    put = (req: Request, res: Response, next: NextFunction) => {
+    put = async (req: Request, res: Response, next: NextFunction) => {
         console.log('Put request...!');
         console.log(req.body);
-        const { name, id } = req.body;
-        const user = users.find(e => e.id === parseInt(id, 10));
-        if (!user) {
-            res.status(404).send('Not Found! Can not update your request!');
-        }
-        user.userName = name;
-        res.status(200).send(user);
+        const userData = await userRepository.updateDoc(req.body);
+        res.status(200).send(userData);
     }
 
     delete = (req: Request, res: Response, next: NextFunction) => {
