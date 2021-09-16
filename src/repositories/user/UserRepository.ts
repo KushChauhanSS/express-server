@@ -1,38 +1,35 @@
 import * as mongoose from 'mongoose';
 import { userModel } from './UserModel';
 import IUserModel from './IUserModel';
+import VersionableRepository from '../versionable/VersionableRepository';
+export default class UserRepository extends VersionableRepository<IUserModel, mongoose.Model<IUserModel>> {
 
-export default class UserRepository {
-    public static generateObjectId() {
-        console.log(String(new mongoose.Types.ObjectId()));
-        return String(new mongoose.Types.ObjectId());
+    constructor() {
+        super(userModel);
     }
 
-    public count = (): mongoose.Query<number, IUserModel> => {
-        return userModel.count();
+    public countDoc(): mongoose.Query<number, IUserModel> {
+        return super.count();
     }
 
-    public findUser = (query): mongoose.Query<IUserModel, IUserModel> => {
-        return userModel.findOne(query).lean();
+    public findUser(query): mongoose.Query<IUserModel, IUserModel> {
+        return super.findOne(query);
     }
 
-    public create = (data: any): Promise<IUserModel> => {
-        console.log('UserRepository:: create', data);
-        const id = UserRepository.generateObjectId();
-        const model = new userModel({
-            _id: id,
-            ...data
-        });
-        return model.save();
+    public findDoc(query, projection?: any, options?: any): mongoose.Query<IUserModel[], IUserModel> {
+        return super.find(query, projection, options);
     }
 
-    public update = (data: any): mongoose.UpdateQuery<IUserModel> => {
-        console.log('UserRepository:: update', data);
-        return userModel.updateOne(data);
+    public createDoc(data: any): Promise<IUserModel> {
+        return super.create(data);
     }
 
-    public delete = (data: any): mongoose.Query<object, IUserModel> => {
-        console.log('UserRepository:: delete', data);
-        return userModel.deleteOne(data);
+    public updateDoc(data: any): Promise<IUserModel> {
+        return super.update(data);
+    }
+
+    public delete(id: string): mongoose.Query<object, IUserModel> {
+        console.log('UserRepository:: delete', id);
+        return super.invalidate(id);
     }
 }
