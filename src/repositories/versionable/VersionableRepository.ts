@@ -18,7 +18,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
 
     public findOne(query): mongoose.Query<mongoose.EnforceDocument<D, {}>, mongoose.EnforceDocument<D, {}>> {
         const finalQuery = { deletedAt: undefined, ...query };
-        return this.model.findOne(finalQuery);
+        return this.model.findOne(finalQuery).lean();
     }
 
     public find(query, projection?: any, options?: any): mongoose.Query<mongoose.EnforceDocument<D, {}>[], mongoose.EnforceDocument<D, {}>> {
@@ -48,7 +48,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
 
     public async update(data: any): Promise<D> {
         console.log('UserRepository:: update', data);
-        const previousRecord = await this.find({ originalId: data.originalId });
+        const previousRecord = await this.findOne({ originalId: data.originalId });
         console.log(previousRecord);
         if (previousRecord) {
             console.log('in update...');
