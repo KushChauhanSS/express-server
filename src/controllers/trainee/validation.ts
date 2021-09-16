@@ -6,7 +6,6 @@ export default Object.freeze({
     // POST Request Schema
     create: {
         name: {
-            string: true,
             exists: true,
             errorMessage: 'Name is required!',
             in: ['body']
@@ -15,13 +14,11 @@ export default Object.freeze({
     // PUT Request Schema
     update: {
         id: {
-            string: true,
             exists: true,
             errorMessage: 'ID is required!',
             in: ['body'],
         },
         name: {
-            string: true,
             exists: true,
             errorMessage: 'Name is required!',
             in: ['body']
@@ -30,7 +27,6 @@ export default Object.freeze({
     // DELETE Request Schema
     delete: {
         id: {
-            string: true,
             exists: true,
             errorMessage: 'ID is required!',
             in: ['params']
