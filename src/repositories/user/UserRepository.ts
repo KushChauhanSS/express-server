@@ -28,8 +28,8 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
         return super.update(data);
     }
 
-    public delete(id: string): mongoose.Query<object, IUserModel> {
-        console.log('UserRepository:: delete', id);
-        return super.invalidate(id);
+    public deleteDoc(id: any): Promise<IUserModel> {
+        console.log('in deleteDoc...');
+        return super.delete(id);
     }
 }
