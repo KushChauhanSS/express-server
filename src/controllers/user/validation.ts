@@ -1,8 +1,7 @@
 export default Object.freeze({
-    // GET Request Schema
-    get: {
+    // GET One User Request Schema
+    getOne: {
         originalId: {
-            string: true,
             exists: true,
             errorMessage: 'ID is required!',
             in: ['query']
@@ -11,25 +10,21 @@ export default Object.freeze({
     // POST Request Schema
     create: {
         name: {
-            string: true,
             exists: true,
             errorMessage: 'Name is required!',
             in: ['body']
         },
         email: {
-            string: true,
             exists: true,
             errorMessage: 'Email is required!',
             in: ['body']
         },
         role: {
-            string: true,
             exists: true,
             errorMessage: 'Role is required!',
             in: ['body']
         },
         password: {
-            string: true,
             exists: true,
             errorMessage: 'Password is required!',
             in: ['body']
@@ -38,22 +33,14 @@ export default Object.freeze({
     // PUT Request Schema
     update: {
         originalId: {
-            string: true,
             exists: true,
             errorMessage: 'ID is required!',
             in: ['body'],
-        },
-        name: {
-            string: true,
-            exists: true,
-            errorMessage: 'Name is required!',
-            in: ['body']
         }
     },
     // DELETE Request Schema
     delete: {
-        id: {
-            string: true,
+        originalId: {
             exists: true,
             errorMessage: 'ID is required!',
             in: ['params']

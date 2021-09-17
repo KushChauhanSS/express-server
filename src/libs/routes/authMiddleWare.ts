@@ -28,13 +28,13 @@ const authMiddleWare = (module, permissionType) => async (req, res, next) => {
         next({ error: 'Unauthorized Access', message: 'User not Authorized!', status: 403 });
     }
 
-    const userData = await userRepository.findUser({ _id: user.id });
+    const userData = await userRepository.findUser({ _id: user._id });
 
     if (!userData) {
         next({ error: 'Unauthorized Access', message: 'User does not exists!', status: 403 });
     }
 
-    if (!hasPermission(module, user.role, permissionType)) {
+    if (!hasPermission(module, userData.role, permissionType)) {
         next({ error: 'Unauthorized Access', message: 'Permission Denied!', status: 403 });
     }
 

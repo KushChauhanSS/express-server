@@ -2,53 +2,100 @@ import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 import configuration from '../../config/configuration';
 import UserRepository from '../../repositories/user/UserRepository';
-
-// temporary data
-const users = [
-    { userName: 'Gaurav', id: 1 },
-    { userName: 'Prabal', id: 2 },
-    { userName: 'Adil', id: 3 },
-    { userName: 'Sapna', id: 4 },
-    { userName: 'Vinay', id: 5 }
-];
+import * as bcrypt from 'bcrypt';
 
 const userRepository: UserRepository = new UserRepository();
 class User {
-
-    get = async (req: Request, res: Response, next: NextFunction) => {
-        console.log('Get request...!');
-        const userData = await userRepository.findUser(req.query);
-        res.status(200).send(userData);
-    }
-
-    post = async (req: Request, res: Response, next: NextFunction) => {
-        console.log('Post request...!');
-        const userData = await userRepository.createDoc(req.body);
-        res.status(200).send(userData);
-    }
-
-    put = async (req: Request, res: Response, next: NextFunction) => {
-        console.log('Put request...!');
-        console.log(req.body);
-        const userData = await userRepository.updateDoc(req.body);
-        res.status(200).send(userData);
-    }
-
-    delete = (req: Request, res: Response, next: NextFunction) => {
-        console.log('Delete request...!');
-        const { id } = req.params;
-        const user = users.find(e => e.id === parseInt(id, 10));
-        if (!user) {
-            res.status(404).send('Not Found! Can not make changes requested!');
+    // FUNCTION TO GET ALL USER
+    getAll = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            console.log('Get request...!');
+            const userData = await userRepository.findDoc({});
+            res.status(200).send(userData);
         }
-        const index = users.indexOf(user);
-        users.splice(index, 1);
-        res.status(200).send(user);
+        catch (error) {
+            console.log(error);
+        }
     }
 
-    createToken = (req: Request, res: Response, next: NextFunction) => {
-        const token = jwt.sign(req.body, configuration.secret, { expiresIn: '10h' });
-        res.status(200).send({ message: 'Token created successfully!', data: { token }, status: 'success' });
+    // FUNCTION TO GET SIGLE USER
+    getOne = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            console.log('Get request...!');
+            const userData = await userRepository.findUser(req.query);
+            res.status(200).send(userData);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    // FUNCTION TO ADD NEW USER
+    post = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            console.log('Post request...!');
+            await userRepository.createDoc(req.body);
+            const userData = await userRepository.findDoc({});
+            res.status(200).send(userData);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    // FUNCTION TO UPDATE A USER
+    put = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            console.log('Put request...!');
+            await userRepository.updateDoc(req.body);
+            const userData = await userRepository.findDoc({});
+            res.status(200).send(userData);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    // FUNCTION TO DELETE A USER
+    delete = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            console.log('Delete request...!');
+            await userRepository.deleteDoc(req.params);
+            const userData = await userRepository.findDoc({});
+            console.log('userData', userData);
+            res.status(200).send(userData);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    // FUNCTION TO MATCH CREDENTIALS (EMAIL AND PASSWORD) FROM DB
+    matchCredentials = async (data: any) => {
+        const dbData = await userRepository.findUser({ email: data.email });
+        const match = await bcrypt.compare(data.password, dbData.password);
+        if (match) {
+            console.log('Credentials matched!');
+            return dbData;
+        }
+        else {
+            throw new Error('Credentials not matched!');
+        }
+    }
+
+    // FUNCTION TO GENERATE TOKEN WITH ID AND EMAIL AS PAYLOAD
+    createToken = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const userData = await this.matchCredentials(req.body);
+            if (userData) {
+                const payloadData = { _id: userData._id, email: userData.email };
+                const token = jwt.sign(payloadData, configuration.secret, { expiresIn: '15m' });
+                res.status(200).send({ message: 'Token created successfully!', data: { token }, status: 'success' });
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
 }
 

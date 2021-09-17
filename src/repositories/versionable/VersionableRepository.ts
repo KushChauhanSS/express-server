@@ -1,5 +1,4 @@
 import * as mongoose from 'mongoose';
-
 export default class VersionableRepository<D extends mongoose.Document, M extends mongoose.Model<D>> {
     private model: M;
 
@@ -17,6 +16,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     }
 
     public findOne(query): mongoose.Query<mongoose.EnforceDocument<D, {}>, mongoose.EnforceDocument<D, {}>> {
+        console.log('in findOne...');
         const finalQuery = { deletedAt: undefined, ...query };
         return this.model.findOne(finalQuery).lean();
     }
@@ -26,10 +26,9 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
         return this.model.find(finalQuery);
     }
 
-    public create(data: any): Promise<D> {
+    public async create(data: any): Promise<D> {
         console.log('UserRepository:: create', data);
         const id = VersionableRepository.generateObjectId();
-        console.log(id);
         const model = new this.model({
             _id: id,
             originalId: id,
@@ -49,24 +48,29 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     public async update(data: any): Promise<D> {
         console.log('UserRepository:: update', data);
         const previousRecord = await this.findOne({ originalId: data.originalId });
-        console.log(previousRecord);
         if (previousRecord) {
-            console.log('in update...');
             await this.invalidate(data.originalId);
         }
         else {
             return undefined;
         }
         const newDoc = { ...previousRecord, ...data };
-
         newDoc._id = VersionableRepository.generateObjectId();
         delete newDoc.deletedAt;
         const model = new this.model(newDoc);
         return model.save();
     }
 
-    // public delete = (data: any): mongoose.Query<object, D> => {
-    //     console.log('UserRepository:: delete', data);
-    //     return this.model.deleteOne(data);
-    // }
+    public async delete(data: any): Promise<D> {
+        console.log('UserRepository:: delete', data);
+        const previousRecord = await this.findOne({ originalId: data.originalId });
+        console.log(previousRecord);
+        if (previousRecord) {
+            console.log('in delete...');
+            await this.invalidate(data.originalId);
+        }
+        else {
+            return undefined;
+        }
+    }
 }
