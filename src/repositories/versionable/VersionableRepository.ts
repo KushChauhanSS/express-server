@@ -22,12 +22,13 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     }
 
     public find(query, projection?: any, options?: any): mongoose.Query<mongoose.EnforceDocument<D, {}>[], mongoose.EnforceDocument<D, {}>> {
-        const finalQuery = { deletedAt: undefined, ...query };
-        return this.model.find(finalQuery);
+        const { skip = 0, limit = 10, sortBy = '-createdAt' } = query;
+        const finalQuery = { deletedAt: undefined };
+        return this.model.find(finalQuery, projection, { skip: +(skip), limit: +(limit) }).sort(`-${sortBy}`);
     }
 
     public async create(data: any): Promise<D> {
-        console.log('UserRepository:: create', data);
+        console.log('VersionableRepository:: create', data);
         const id = VersionableRepository.generateObjectId();
         const model = new this.model({
             _id: id,
@@ -46,7 +47,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     }
 
     public async update(data: any): Promise<D> {
-        console.log('UserRepository:: update', data);
+        console.log('VersionableRepository:: update', data);
         const previousRecord = await this.findOne({ originalId: data.originalId });
         if (previousRecord) {
             await this.invalidate(data.originalId);
@@ -62,7 +63,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     }
 
     public async delete(data: any): Promise<D> {
-        console.log('UserRepository:: delete', data);
+        console.log('VersionableRepository:: delete', data);
         const previousRecord = await this.findOne({ originalId: data.originalId });
         console.log(previousRecord);
         if (previousRecord) {
