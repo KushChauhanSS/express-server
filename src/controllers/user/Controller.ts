@@ -11,8 +11,10 @@ class User {
     getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {
             console.log('Get request...!');
-            const userData = await userRepository.findDoc(req.query);
-            const documents = await userRepository.countDoc();
+            const [userData, documents] = await Promise.all([
+                userRepository.findDoc(req.query).catch(error => { console.log(error); }),
+                userRepository.countDoc().catch(error => { console.log(error); })
+            ]);
             const finalData = { documents, userData };
             res.status(200).send(finalData);
         }
