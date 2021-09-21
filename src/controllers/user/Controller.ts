@@ -12,16 +12,18 @@ class User {
         try {
             console.log('Get request...!');
             const [userData, documents] = await Promise.all([
-                userRepository.findDoc(req.query).catch(error => { console.log(error); }),
-                userRepository.countDoc().catch(error => { console.log(error); })
+                userRepository.findDoc(req.query).catch(error => { console.log('in findDoc catch...', error); }),
+                userRepository.countDoc().catch(error => { console.log('in countDoc catch...', error); })
             ]);
             const finalData = { documents, userData };
             res.status(200).send(finalData);
         }
         catch (error) {
+            console.log('in outer catch...');
             console.log(error);
         }
     }
+
 
     // FUNCTION TO GET SIGLE USER
     getOne = async (req: Request, res: Response, next: NextFunction) => {
