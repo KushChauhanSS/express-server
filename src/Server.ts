@@ -4,6 +4,8 @@ import notFoundRoute from './libs/routes/notFoundRoute';
 import errorHandler from './libs/routes/errorHandler';
 import router from './router';
 import Database from './libs/Database';
+import Swagger from './libs/Swagger';
+
 export default class Server {
 
     private app: express.Express;
@@ -44,11 +46,24 @@ export default class Server {
     }
 
     /**
-     * Method to initialize bodyparser
+     * Function to initialize bodyparser
      */
     initBodyParser = () => {
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(bodyParser.json());
+    }
+
+    /**
+     * Function to initialize swagger
+     */
+    initSwagger = () => {
+        const { swaggerDefinition, swaggerUrl } = this.config;
+        const swaggerSetup = new Swagger();
+        // JSON route
+        this.app.use(`${swaggerUrl}.json`, swaggerSetup.getRouter({ swaggerDefinition }));
+        const { serve, setup } = swaggerSetup.getUI(swaggerUrl);
+        // Swagger UI route
+        this.app.use(swaggerUrl, serve, setup);
     }
 
     /**
@@ -57,6 +72,7 @@ export default class Server {
      */
     bootstrap = () => {
         this.initBodyParser();
+        this.initSwagger();
         this.setupRoutes();
         return this;
     }

@@ -6,11 +6,16 @@ import UserRepository from '../../repositories/user/UserRepository';
 const userRepository: UserRepository = new UserRepository();
 
 const authMiddleWare = (module, permissionType) => async (req, res, next) => {
-    const token = req.header('Authorization');
+    let token = req.header('Authorization');
     console.log('Token:', token);
 
     if (!token) {
         next({ error: 'Unauthorized Acess', message: 'Token not found!', status: 403 });
+    }
+
+    // extracted 'Bearer ' from genrated Token
+    if (token.startsWith('Bearer ')) {
+        token = token.substring(7, token.length);
     }
 
     const { secret } = configuration;
