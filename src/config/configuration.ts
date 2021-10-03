@@ -6,7 +6,8 @@ import { version } from '../../package.json';
 const envVarsSchema = joi.object({
     NODE_ENV: joi.string().default('dev'),
     PORT: joi.number().default(9000),
-    TOKEN_SECRET: joi.string().alphanum()
+    TOKEN_SECRET: joi.string().alphanum(),
+    MONGO_URL: joi.string()
 }).unknown().required();
 
 const { value: envVars } = envVarsSchema.validate(process.env);

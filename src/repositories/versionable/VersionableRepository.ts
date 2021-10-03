@@ -1,7 +1,6 @@
 import * as mongoose from 'mongoose';
 export default class VersionableRepository<D extends mongoose.Document, M extends mongoose.Model<D>> {
     private model: M;
-
     constructor(model) {
         this.model = model;
     }
@@ -16,7 +15,6 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     }
 
     public findOne(query): mongoose.Query<mongoose.EnforceDocument<D, {}>, mongoose.EnforceDocument<D, {}>> {
-        console.log('in findOne...');
         const finalQuery = { deletedAt: undefined, ...query };
         return this.model.findOne(finalQuery).lean();
     }
@@ -31,7 +29,6 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
                     { email: { $regex: new RegExp(search), $options: 'i' } }
                 ]
         };
-        console.log(finalQuery);
         return this.model.find(finalQuery, projection, { skip: +(skip), limit: +(limit) }).sort(`-${sortBy}`);
     }
 
@@ -48,7 +45,6 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
 
     // function to soft delete the record.
     public invalidate(id: string): mongoose.Query<mongoose.UpdateWriteOpResult, mongoose.EnforceDocument<D, {}>, {}, D> {
-        console.log('in invalidate...');
         const oldData: object = { originalId: id, deletedAt: undefined };
         const newData: object = { deletedAt: Date.now() };
         return this.model.updateOne(oldData, newData);
@@ -70,13 +66,11 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
         return model.save();
     }
 
-    public async delete(data: any): Promise<D> {
+    public async delete(data: any): Promise<mongoose.Query<mongoose.UpdateWriteOpResult, mongoose.EnforceDocument<D, {}>, {}, D>> {
         console.log('VersionableRepository:: delete', data);
         const previousRecord = await this.findOne({ originalId: data.originalId });
-        console.log(previousRecord);
         if (previousRecord) {
-            console.log('in delete...');
-            await this.invalidate(data.originalId);
+            return await this.invalidate(data.originalId);
         }
         else {
             return undefined;

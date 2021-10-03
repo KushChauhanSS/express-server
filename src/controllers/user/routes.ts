@@ -15,27 +15,27 @@ router
      *      properties:
      *          _id:
      *              type: string
-     *              example: 6144991cc528890398746b2d
+     *              example: 61598424fbfdfec65e2dd36b
      *          originalId:
      *              type: string
-     *              example: 6144991cc528890398746b2d
+     *              example: 61598424fbfdfec65e2dd36b
      *          name:
      *              type: string
-     *              example: Vinay
+     *              example: John
      *          email:
      *              type: string
-     *              example: vinay@successive.tech
+     *              example: john@successive.tech
      *          role:
      *              type: string
      *              example: head-trainer
      *          password:
      *              type: string
-     *              example: $2b$10$GrlxBzKzFOOPSOXF2A1kiOYiXqYb6V9xjO.C3wtv8UuQfDpnq2oXW
+     *              example: $2b$10$Nc.zk1nfo4uuaT7iiOU86OnmWxxZyRcBVR9Szg5N8scZXKZD0LQvW
      *          createdAt:
-     *              type: string
-     *              example: 2021-09-17T13:33:16.187Z
+     *              type: Date
+     *              example: 2021-10-03T10:09:32.460+00:00
      *          __v:
-     *              type: string
+     *              type: integer
      *              example: 0
      *
      */
@@ -44,7 +44,7 @@ router
      * @swagger
      * /users/all:
      *  get:
-     *      summary: Returns all user documents and their count.
+     *      summary: To get all user documents and their count.
      *      tags: [USERS]
      *      parameters:
      *          - name: skip
@@ -67,24 +67,31 @@ router
      *            in: query
      *            schema:
      *              type: string
-     *      security:
-     *          - bearerAuth: []
      *      responses:
      *          '200':
-     *              description: Object containg the count and list of all documents.
+     *              description: A JSON object containing a message, result and status.
      *              content:
      *                  application/json:
      *                      schema:
      *                          type: object
      *                          properties:
-     *                              documents:
+     *                              message:
      *                                  type: string
-     *                                  example: 1
-     *                              userData:
-     *                                  type: array
-     *                                  items:
-     *                                      type: object
-     *                                      $ref: '#/components/userResponses'
+     *                                  example: Data fetched successfuly!
+     *                              result:
+     *                                  type: object
+     *                                  properties:
+     *                                      documents:
+     *                                          type: string
+     *                                          example: 1
+     *                                      userData:
+     *                                          type: array
+     *                                          items:
+     *                                              type: object
+     *                                              $ref: '#/components/userResponses'
+     *                              status:
+     *                                  type: string
+     *                                  example: success
      *          '403':
      *              description: Unauthorized Acess!
      *          '404':
@@ -98,7 +105,7 @@ router
      * @swagger
      * /users/:
      *  get:
-     *      summary: Returns a single user document.
+     *      summary: To get a single user document.
      *      tags: [USERS]
      *      parameters:
      *          - name: originalId
@@ -107,16 +114,23 @@ router
      *            required: true
      *            schema:
      *              type: string
-     *      security:
-     *          - bearerAuth: []
      *      responses:
      *          '200':
-     *              description: Required single document object.
+     *              description: A JSON object containing a message, result and status.
      *              content:
      *                  application/json:
      *                      schema:
      *                          type: object
-     *                          $ref: '#/components/userResponses'
+     *                          properties:
+     *                              message:
+     *                                  type: string
+     *                                  example: Data fetched successfuly!
+     *                              result:
+     *                                  type: object
+     *                                  $ref: '#/components/userResponses'
+     *                              status:
+     *                                  type: string
+     *                                  example: success
      *          '403':
      *              description: Unauthorized Acess!
      *          '404':
@@ -147,52 +161,33 @@ router
      *                      properties:
      *                          name:
      *                              type: string
-     *                              example: Any
+     *                              example: John
      *                          email:
      *                              type: string
-     *                              example: any@successive.tech
+     *                              example: john@successive.tech
      *                          role:
      *                              type: string
-     *                              example: trainer
+     *                              example: head-trainer
      *                          password:
      *                              type: string
-     *                              example: Any@123
-     *      security:
-     *          - bearerAuth: []
+     *                              example: John@123
      *      responses:
      *          '200':
-     *              description: Array of documents containing the newly created document.
+     *              description: A JSON object containing a message, result and status.
      *              content:
      *                  application/json:
      *                      schema:
-     *                          type: array
-     *                          items:
-     *                              type: object
-     *                              properties:
-     *                                  _id:
-     *                                      type: string
-     *                                      example: 6144991cc528890398746b2d
-     *                                  originalId:
-     *                                      type: string
-     *                                      example: 6144991cc528890398746b2d
-     *                                  name:
-     *                                      type: string
-     *                                      example: Any
-     *                                  email:
-     *                                      type: string
-     *                                      example: Any@successive.tech
-     *                                  role:
-     *                                      type: string
-     *                                      example: trainer
-     *                                  password:
-     *                                      type: string
-     *                                      example: $2b$10$jmPSPqA6lbyLU22Zsl3wGeSjiG3xmsxUT4L7glubsSnWLnoDFxcki
-     *                                  createdAt:
-     *                                      type: string
-     *                                      example: 2021-09-22T09:06:35.210Z
-     *                                  __v:
-     *                                      type: string
-     *                                      example: 0
+     *                          type: object
+     *                          properties:
+     *                              message:
+     *                                  type: string
+     *                                  example: Data added successfuly!
+     *                              result:
+     *                                  type: object
+     *                                  $ref: '#/components/userResponses'
+     *                              status:
+     *                                  type: string
+     *                                  example: success
      *          '403':
      *              description: Unauthorized Acess!
      *          '422':
@@ -209,7 +204,9 @@ router
      *      summary: To update a document.
      *      tags: [USERS]
      *      requestBody:
-     *          description: Enter originalId of the document that needs to be updated along with the fields you want to update     .
+     *          description: >
+     *              Enter originalId of the document that needs to be updated along with the fields you want to update
+     *              (Eg: name, email, role or password).
      *          required: true
      *          content:
      *              application/json:
@@ -220,55 +217,36 @@ router
      *                      properties:
      *                          originalId:
      *                              type: string
-     *                              example: 614af21b54c760392cb531d8
+     *                              example: 61598424fbfdfec65e2dd36b
      *                          name:
      *                              type: string
-     *                              example: Any2
+     *                              example: John
      *                          email:
      *                              type: string
-     *                              example: any2@successive.tech
+     *                              example: john@successive.tech
      *                          role:
      *                              type: string
-     *                              example: head-  trainer
+     *                              example: head-trainer
      *                          password:
      *                              type: string
-     *                              example: Any2@123
-     *      security:
-     *          - bearerAuth: []
+     *                              example: John@123
      *      responses:
      *          '200':
-     *              description: Array of documents containing the updated document.
+     *              description: A JSON object containing a message, result and status.
      *              content:
      *                  application/json:
      *                      schema:
-     *                          type: array
-     *                          items:
-     *                              type: object
-     *                              properties:
-     *                                  _id:
-     *                                      type: string
-     *                                      example: 614afcf4b8ee4c998c4b7b4b
-     *                                  originalId:
-     *                                      type: string
-     *                                      example: 614af21b54c760392cb531d8
-     *                                  name:
-     *                                      type: string
-     *                                      example: Any2
-     *                                  email:
-     *                                      type: string
-     *                                      example: any2@successive.tech
-     *                                  role:
-     *                                      type: string
-     *                                      example: head-trainer
-     *                                  password:
-     *                                      type: string
-     *                                      example: $2b$10$0JF3Y5ufNkjCCXfpG8XUguKjwqqQ8dP2bMKwaVMwoH8bhspS3N0Vi
-     *                                  createdAt:
-     *                                      type: string
-     *                                      example: 2021-09-22T09:06:35.210Z
-     *                                  __v:
-     *                                      type: string
-     *                                      example: 0
+     *                          type: object
+     *                          properties:
+     *                              message:
+     *                                  type: string
+     *                                  example: Data updated successfuly!
+     *                              result:
+     *                                  type: object
+     *                                  $ref: '#/components/userResponses'
+     *                              status:
+     *                                  type: string
+     *                                  example: success
      *          '403':
      *              description: Unauthorized Acess!
      *          '404':
@@ -289,22 +267,43 @@ router
      *      parameters:
      *          - name: originalId
      *            in: path
-     *            description: originalId of document that needs to be deleted.
+     *            description: OriginalId of document that needs to be deleted.
      *            required: true
      *            schema:
      *              type: string
-     *      security:
-     *          - bearerAuth: []
      *      responses:
      *          '200':
-     *              description: Array of documents except the deleted   document.
+     *              description: A JSON object containing a message, result and status.
      *              content:
      *                  application/json:
      *                      schema:
-     *                          type: array
-     *                          items:
-     *                              type: object
-     *                              $ref: '#/components/userResponses'
+     *                          type: object
+     *                          properties:
+     *                              message:
+     *                                  type: string
+     *                                  example: Data deleted successfuly!
+     *                              result:
+     *                                  type: object
+     *                                  properties:
+     *                                      acknowledged:
+     *                                          type: boolean
+     *                                          example: true
+     *                                      modifiedCount:
+     *                                          type: integer
+     *                                          example: 1
+     *                                      upsertedId:
+     *                                          type: string
+     *                                          nullable: true
+     *                                          example: null
+     *                                      upsertedCount:
+     *                                          type: integer
+     *                                          example: 0
+     *                                      matchedCount:
+     *                                          type: integer
+     *                                          example: 1
+     *                              status:
+     *                                  type: string
+     *                                  example: success
      *          '403':
      *              description: Unauthorized Acess!
      *          '404':

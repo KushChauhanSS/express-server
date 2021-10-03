@@ -7,7 +7,6 @@ const userRepository: UserRepository = new UserRepository();
 
 const authMiddleWare = (module, permissionType) => async (req, res, next) => {
     let token = req.header('Authorization');
-    console.log('Token:', token);
 
     if (!token) {
         next({ error: 'Unauthorized Acess', message: 'Token not found!', status: 403 });
@@ -19,7 +18,6 @@ const authMiddleWare = (module, permissionType) => async (req, res, next) => {
     }
 
     const { secret } = configuration;
-    console.log('Key:', secret);
 
     let user;
     try {
@@ -27,7 +25,6 @@ const authMiddleWare = (module, permissionType) => async (req, res, next) => {
     } catch (error) {
         next({ error: 'Unauthorized Access', message: 'User not Authorized!', status: 403 });
     }
-    console.log('User:', user);
 
     if (!user) {
         next({ error: 'Unauthorized Access', message: 'User not Authorized!', status: 403 });
@@ -43,7 +40,7 @@ const authMiddleWare = (module, permissionType) => async (req, res, next) => {
         next({ error: 'Unauthorized Access', message: 'Permission Denied!', status: 403 });
     }
 
-    req.user = user;
+    req.user = userData;
     next();
 
 };
