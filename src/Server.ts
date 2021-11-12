@@ -4,7 +4,7 @@ import errorHandler from './libs/routes/errorHandler';
 import router from './router';
 import Database from './libs/Database';
 import Swagger from './libs/Swagger';
-
+import * as cors from 'cors';
 export default class Server {
 
     private app: express.Express;
@@ -22,6 +22,11 @@ export default class Server {
      * @returns
      */
     setupRoutes = () => {
+        const corsOptions = {
+            origin: 'http://localhost:3000',
+            optionsSuccessStatus: 200
+        };
+
         this.app.get('/health-check', (req, res) => {
             res.status(200).json({
                 status: 200,
@@ -34,6 +39,7 @@ export default class Server {
                 message: 'I am OK'
             });
         });
+        this.app.use(cors(corsOptions)); // to enabled CORS requests
         this.app.use('/api', router);
         this.app.use(notFoundRoute);
         this.app.use(errorHandler);

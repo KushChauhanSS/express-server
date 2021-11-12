@@ -20,7 +20,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     }
 
     public find(query, projection?: any, options?: any): mongoose.Query<mongoose.EnforceDocument<D, {}>[], mongoose.EnforceDocument<D, {}>> {
-        const { skip = 0, limit = 10, sortBy = '-createdAt', search = '' } = query;
+        const { skip = 0, limit = 10, sortBy = 'createdAt', search = '' } = query;
         const finalQuery: any = {
             deletedAt: undefined,
             $or:
