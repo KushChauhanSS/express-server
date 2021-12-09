@@ -7,6 +7,10 @@ import * as bcrypt from 'bcrypt';
 
 const userRepository: UserRepository = new UserRepository();
 class User {
+    // FUNCTION TO GET LOGGED-IN USER PROFILE
+    getMe = (req, res, next) => {
+        res.status(200).send({ message: 'User Profile fetched successfuly!', result: req.user, status: 'success' });
+    }
     // FUNCTION TO GET ALL USERS
     getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {

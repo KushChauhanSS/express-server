@@ -41,6 +41,11 @@ router
      */
 
     /**
+     * To get user profile data.
+     */
+    .get('/me', authMiddleWare(USER, 'read'), user.getMe)
+
+    /**
      * @swagger
      * /users/all:
      *  get:
