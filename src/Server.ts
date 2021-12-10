@@ -75,7 +75,7 @@ export default class Server {
         this.initBodyParser();
         this.initSwagger();
         this.setupRoutes();
-        return this;
+        return this.app;
     }
 
     /**

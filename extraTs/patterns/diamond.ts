@@ -1,4 +1,4 @@
-const diamond = (row: number): void => {
+const diamond = (row: number): string => {
     console.log('Print a diamond with rows', row);
 
     let s: string = '';
@@ -29,6 +29,7 @@ const diamond = (row: number): void => {
     }
 
     console.log(s);
+    return 'Diamond Printed!';
 };
 
 export default diamond; // exporting diamond function
