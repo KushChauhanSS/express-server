@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node extras/index.js",
-    "start:extra": "babel-node extra",
+    "start:extras": "babel-node extras",
     "start:extraTs": "tsc-watch --project . --onSuccess \"npm run nodemon\"",
     "nodemon": "nodemon ./dist/extraTs/index.js",
     "start:src": "tsc-watch --project . --onSuccess \"npm run nodemon:src\"",
-    "nodemon:src": "nodemon ./dist/src/index.js",
+    "nodemon:src": "nodemon ./dist/src",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**/*.{j,t}s'",
     "lint:fix": "./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**/*.{j,t}s' --fix",
@@ -47,6 +47,7 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-validator": "^6.12.1",

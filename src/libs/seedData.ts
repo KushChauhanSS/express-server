@@ -8,7 +8,6 @@ const userRepository: UserRepository = new UserRepository();
 const seedUserData = async () => {
     try {
         const res = await userRepository.count();
-        console.log('Total number of documents: ', res);
         if (res === 0) {
             console.log('User Data seed in progress...');
             initialData.forEach(async (doc) => {

@@ -37,7 +37,6 @@ export default class Swagger {
 
             // initialize swagger docs
             const swaggerSpec = swaggerJSDoc(options);
-            console.log('swaggerSpec', swaggerSpec);
             res.send(swaggerSpec);
         });
         return router;

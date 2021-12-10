@@ -8,8 +8,7 @@ export const validateUsers = (users: IUser[]): void => {
 
     users.forEach(element => {
 
-        const { traineeEmail } = element;
-        const { reviewerEmail } = element;
+        const { traineeEmail, reviewerEmail } = element;
 
         if (validateEmail(traineeEmail)) {
             validUsers.push(traineeEmail);

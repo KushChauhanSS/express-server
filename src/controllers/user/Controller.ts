@@ -7,6 +7,10 @@ import * as bcrypt from 'bcrypt';
 
 const userRepository: UserRepository = new UserRepository();
 class User {
+    // FUNCTION TO GET LOGGED-IN USER PROFILE
+    getMe = (req, res, next) => {
+        res.status(200).send({ message: 'User Profile fetched successfuly!', result: req.user, status: 'success' });
+    }
     // FUNCTION TO GET ALL USERS
     getAll = async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -16,7 +20,7 @@ class User {
                 userRepository.countDoc()
             ]);
             const finalData = { documents, userData };
-            res.status(200).send(finalData);
+            res.status(200).send({ message: 'Data fetched successfuly!', result: finalData, status: 'success' });
         }
         catch (error) {
             console.log(error);
@@ -30,8 +34,7 @@ class User {
             console.log('Get request...!');
             const userData = await userRepository.findUser(req.query);
             if (userData) {
-                console.log(userData);
-                res.status(200).send(userData);
+                res.status(200).send({ message: 'Data fetched successfuly!', result: userData, status: 'success' });
             }
             else {
                 next({ status: 404, message: `User with Original Id: ${req.query.originalId} not found!` });
@@ -49,9 +52,8 @@ class User {
             console.log('Post request...!');
             const { password } = req.body;
             req.body.password = await hashPassword(password);
-            await userRepository.createDoc(req.body);
-            const userData = await userRepository.findDoc({});
-            res.status(200).send(userData);
+            const userData = await userRepository.createDoc(req.body);
+            res.status(200).send({ message: 'Data added successfuly!', result: userData, status: 'success' });
         }
         catch (error) {
             console.log(error);
@@ -67,10 +69,9 @@ class User {
             if (password) {
                 req.body.password = await hashPassword(password);
             }
-            const result = await userRepository.updateDoc(req.body);
-            if (result) {
-                const userData = await userRepository.findDoc({});
-                res.status(200).send(userData);
+            const userData = await userRepository.updateDoc(req.body);
+            if (userData) {
+                res.status(200).send({ message: 'Data updated successfuly!', result: userData, status: 'success' });
             }
             else {
                 next({ status: 404, message: `User with Original Id: ${req.body.originalId} not found!` });
@@ -86,14 +87,11 @@ class User {
     delete = async (req: Request, res: Response, next: NextFunction) => {
         try {
             console.log('Delete request...!');
-            const result = await userRepository.deleteDoc(req.params);
-            if (result) {
-                const userData = await userRepository.findDoc({});
-                console.log('userData', userData);
-                res.status(200).send(userData);
+            const userData = await userRepository.deleteDoc(req.params);
+            if (userData) {
+                res.status(200).send({ message: 'Data deleted successfuly!', result: userData, status: 'success' });
             }
             else {
-                // optimize here.
                 next({ status: 404, message: `User with Original Id: ${req.params.originalId} not found!` });
             }
         }
