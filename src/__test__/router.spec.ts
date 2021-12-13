@@ -11,8 +11,24 @@ describe('Router test', () => {
     describe('/health-check api', () => {
         test('should return { status: 200, message: "I am OK"}', async () => {
             const response = await request.get('/health-check');
+            expect(response.status).toBe(200);
+            expect(response.body.status).toBe(200);
+            expect(response.body.message).toBe('I am OK');
+        });
+
+        test('should not return 500', async () => {
+            const response = await request.get('/health-check');
+            expect(response.body.status).not.toBe(500);
+        });
+    });
+
+    describe('/data api', () => {
+        test('should return { status: 200, message: "I am OK"}', async () => {
+            const response = await request.post('/data');
+            expect(response.status).toBe(200);
             expect(response.body.status).toBe(200);
             expect(response.body.message).toBe('I am OK');
         });
     });
+
 });

@@ -9,13 +9,13 @@ export default class Database {
      */
     public static open = (mongoURL) => {
         return new Promise((resolve, reject) => {
-            mongoose.connect(mongoURL, (error) => {
+            mongoose.connect(mongoURL, async (error) => {
                 if (error) {
                     console.log('Cannot connect mongoDB server!');
                     return reject(error);
                 }
                 console.log('Connected to MongoDB successfully!');
-                seedData();
+                await seedData();
                 return resolve('Connected Successfuly!');
             });
         });
