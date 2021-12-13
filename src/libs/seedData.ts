@@ -7,15 +7,15 @@ const userRepository: UserRepository = new UserRepository();
 // Function to seed user collection data
 const seedUserData = async () => {
     try {
-        const res = await userRepository.count();
-        console.log('Total number of documents: ', res);
+        const res = await userRepository.countDoc();
         if (res === 0) {
             console.log('User Data seed in progress...');
-            initialData.forEach(async (doc) => {
+            const promises = initialData.map(async (doc) => {
                 const { password } = doc;
                 doc.password = await hashPassword(password);
-                userRepository.createDoc(doc);
+                return await userRepository.createDoc(doc);
             });
+            return Promise.all(promises);
         }
     }
     catch (error) {

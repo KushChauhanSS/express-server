@@ -28,8 +28,7 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
         return super.update(data);
     }
 
-    public deleteDoc(id: any): Promise<IUserModel> {
-        console.log('in deleteDoc...');
+    public deleteDoc(id: any): Promise<mongoose.Query<mongoose.UpdateWriteOpResult, IUserModel & { _id: string; }, {}, IUserModel>> {
         return super.delete(id);
     }
 }

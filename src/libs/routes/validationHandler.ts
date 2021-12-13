@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-/* tslint:disable-next-line */
-const { checkSchema, validationResult } = require('express-validator/check');
+import { checkSchema, validationResult } from 'express-validator';
 
-const validationHandler = (validationSchema) => {
+const validationHandler = (validationSchema): any => {
     return [
         checkSchema(validationSchema), (req: Request, res: Response, next: NextFunction) => {
             const errors = validationResult(req);

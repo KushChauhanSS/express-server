@@ -1,11 +1,10 @@
 import * as express from 'express';
-import * as bodyParser from 'body-parser';
 import notFoundRoute from './libs/routes/notFoundRoute';
 import errorHandler from './libs/routes/errorHandler';
 import router from './router';
 import Database from './libs/Database';
 import Swagger from './libs/Swagger';
-
+import * as cors from 'cors';
 export default class Server {
 
     private app: express.Express;
@@ -23,22 +22,24 @@ export default class Server {
      * @returns
      */
     setupRoutes = () => {
+        const corsOptions = {
+            origin: 'http://localhost:3000',
+            optionsSuccessStatus: 200
+        };
+
         this.app.get('/health-check', (req, res) => {
-            console.log('/health-check api called');
-            // res.send('I am OK');
             res.status(200).json({
                 status: 200,
                 message: 'I am OK'
             });
         });
         this.app.post('/data', (req, res) => {
-            console.log('/data api called');
-            console.log('post request data', req.body);
             res.status(200).json({
                 status: 200,
                 message: 'I am OK'
             });
         });
+        this.app.use(cors(corsOptions)); // to enabled CORS requests
         this.app.use('/api', router);
         this.app.use(notFoundRoute);
         this.app.use(errorHandler);
@@ -49,8 +50,8 @@ export default class Server {
      * Function to initialize bodyparser
      */
     initBodyParser = () => {
-        this.app.use(bodyParser.urlencoded({ extended: false }));
-        this.app.use(bodyParser.json());
+        this.app.use(express.urlencoded({ extended: false }));
+        this.app.use(express.json());
     }
 
     /**
@@ -68,13 +69,13 @@ export default class Server {
 
     /**
      * Function to bootstrap our app
-     * @returns
+     * @returns - Instance of current object
      */
     bootstrap = () => {
         this.initBodyParser();
         this.initSwagger();
         this.setupRoutes();
-        return this;
+        return this.app;
     }
 
     /**

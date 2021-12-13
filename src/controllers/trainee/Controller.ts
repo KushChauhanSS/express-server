@@ -20,7 +20,6 @@ class Trainee {
 
   post = (req: Request, res: Response, next: NextFunction) => {
     console.log('Post request...!');
-    console.log(req.body);
     const { name } = req.body;
     const trainee = {
       traineeName: name,
@@ -32,7 +31,6 @@ class Trainee {
 
   put = (req: Request, res: Response, next: NextFunction) => {
     console.log('Put request...!');
-    console.log(req.body);
     const { name, id } = req.body;
     const trainee = trainees.find(e => e.id === parseInt(id, 10));
     if (!trainee) {

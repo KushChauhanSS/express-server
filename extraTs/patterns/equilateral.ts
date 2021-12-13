@@ -1,4 +1,4 @@
-const equilateral = (row: number): void => {
+const equilateral = (row: number): string => {
     console.log('Print a triangle with rows', row);
 
     let s: string = '';
@@ -16,6 +16,7 @@ const equilateral = (row: number): void => {
     }
 
     console.log(s);
+    return 'Triangle Printed!';
 };
 
 export default equilateral; // exporting equilateral function
